@@ -1,0 +1,27 @@
+<svg width="226" height="98" viewBox="0 0 226 98" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g id="No Session Data Illustration">
+<path id="Cloud" d="M104.615 37.3627C113.493 37.3627 121.337 41.408 126.065 47.5912C128.456 46.7768 131.049 46.3295 133.759 46.3295C145.727 46.3296 155.429 55.0282 155.429 65.7582C155.429 68.352 154.86 70.8262 153.831 73.0883C153.928 73.2284 154.024 73.369 154.115 73.5121H155.688C161.866 73.5121 166.875 78.5205 166.875 84.6987C166.875 90.8769 161.866 95.8852 155.688 95.8852H82.176C81.3483 95.8852 80.5422 95.793 79.7658 95.6225C79.3344 95.639 78.8997 95.6488 78.4621 95.6489C66.0812 95.6489 56.0441 88.9575 56.0441 80.7035C56.0441 72.4496 66.0812 65.7582 78.4621 65.7582C78.6161 65.7582 78.7698 65.7591 78.923 65.7612C78.6213 64.3079 78.4621 62.8083 78.4621 61.2748C78.4621 48.0687 90.1712 37.3629 104.615 37.3627Z" fill="#E3E6F5"/>
+<g id="Card">
+<rect id="Card Background" x="75.0992" y="49.6924" width="59.0331" height="38.11" rx="2.61539" fill="white" stroke="#D9DDEC" stroke-width="0.747255" stroke-linecap="round"/>
+<rect id="Video Thumbnail" x="80.7036" y="55.2969" width="20.9231" height="17.9341" rx="2.24176" fill="#6F8DE3"/>
+<path id="Play Icon" d="M94.5686 64.2639L88.9641 67.4996V61.0282L94.5686 64.2639Z" fill="white"/>
+<circle id="Bullet 1" cx="105.641" cy="58.0233" r="1.86814" fill="#6F8DE3"/>
+<rect id="Text Line 1" x="109.003" y="56.9023" width="19.4286" height="2.24176" rx="1.12088" fill="#6F8DE3"/>
+<circle id="Bullet 2" cx="105.641" cy="64.7485" r="1.86814" fill="#6F8DE3"/>
+<rect id="Text Line 2" x="109.003" y="63.6276" width="19.4286" height="2.24176" rx="1.12088" fill="#6F8DE3"/>
+<circle id="Bullet 3" cx="105.641" cy="71.4739" r="1.86814" fill="#6F8DE3"/>
+<rect id="Text Line 3" x="109.003" y="70.3528" width="19.4286" height="2.24176" rx="1.12088" fill="#6F8DE3"/>
+<rect id="Progress Track" x="80.7036" y="79.9562" width="47.8243" height="2.24176" rx="1.12088" fill="#C9D0EC"/>
+<circle id="Progress Knob" cx="91.5388" cy="81.0772" r="2.61539" fill="#6F8DE3"/>
+</g>
+<g id="Magnifier">
+<circle id="Lens" cx="136" cy="78.4616" r="8.2198" fill="white" stroke="#6F8DE3" stroke-width="2.98902" stroke-linecap="round"/>
+<line id="Handle" x1="143.243" y1="82.9511" x2="153.303" y2="92.1804" stroke="#6F8DE3" stroke-width="3.73627" stroke-linecap="round"/>
+</g>
+<g id="Sparkle">
+<line id="Ray 1" x1="146.46" y1="46.1359" x2="148.739" y2="41.0494" stroke="#6F8DE3" stroke-width="2.24176" stroke-linecap="round"/>
+<line id="Ray 2" x1="150.531" y1="48.519" x2="155.059" y2="45.5009" stroke="#6F8DE3" stroke-width="2.24176" stroke-linecap="round"/>
+<line id="Ray 3" x1="153.139" y1="52.8558" x2="158.433" y2="51.4166" stroke="#6F8DE3" stroke-width="2.24176" stroke-linecap="round"/>
+</g>
+</g>
+</svg>

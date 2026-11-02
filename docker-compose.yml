@@ -1,0 +1,120 @@
+# Local development stack. Start everything with:  docker compose up --build
+#
+#   Dashboard   http://localhost:5173/app
+#   API         http://localhost:8000/health   (docs at /docs)
+#   Demo shop   http://localhost:5174
+#   S3 store    http://localhost:8333          (SeaweedFS S3 gateway)
+name: behaviorlens
+
+x-node-app: &node-app
+  build:
+    context: .
+    dockerfile: infra/node.Dockerfile
+  environment:
+    # File watching through Windows/macOS bind mounts needs polling.
+    VITE_USE_POLLING: "true"
+
+services:
+  postgres:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_USER: behaviorlens
+      POSTGRES_PASSWORD: behaviorlens
+      POSTGRES_DB: behaviorlens
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U behaviorlens"]
+      interval: 5s
+      timeout: 3s
+      retries: 10
+
+  redis:
+    image: redis:7-alpine
+    ports:
+      - "6379:6379"
+
+  objectstore:
+    # SeaweedFS with its S3 gateway: an S3-compatible store for rrweb chunks
+    # (used from Phase 1). Anonymous access, development only.
+    image: chrislusf/seaweedfs:3.90
+    command: server -s3 -dir=/data -volume.max=10
+    ports:
+      - "8333:8333"
+    volumes:
+      - objectstore-data:/data
+
+  api:
+    build: ./apps/api
+    environment: &api-env
+      BL_DATABASE_URL: postgresql+psycopg://behaviorlens:behaviorlens@postgres:5432/behaviorlens
+      BL_REDIS_URL: redis://redis:6379/0
+      BL_S3_ENDPOINT_URL: http://objectstore:8333
+      BL_RECORDER_DIST_DIR: /app/recorder-dist
+      BL_PUBLIC_API_URL: http://localhost:8000
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./apps/api/app:/app/app
+      - ./apps/api/alembic:/app/alembic
+      - ./apps/api/tests:/app/tests
+      - ./packages/recorder/dist:/app/recorder-dist:ro
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_started
+      objectstore:
+        condition: service_started
+
+  worker:
+    build: ./apps/api
+    # -B runs the scheduler too (closes idle sessions every minute, retention nightly).
+    command: celery -A app.worker worker -B --queues default,agent --loglevel INFO
+    environment: *api-env
+    volumes:
+      - ./apps/api/app:/app/app
+    depends_on:
+      - redis
+      - postgres
+
+  recorder:
+    # Rebuilds packages/recorder/dist (bl.js, bl-agent.js) on every change; the API serves it.
+    <<: *node-app
+    command: npm run dev --workspace packages/recorder
+    environment:
+      CHOKIDAR_USEPOLLING: "true"
+    volumes:
+      - ./packages/recorder:/repo/packages/recorder
+      - /repo/packages/recorder/node_modules
+
+  web:
+    <<: *node-app
+    command: npm run dev --workspace apps/web -- --host 0.0.0.0
+    environment:
+      VITE_USE_POLLING: "true"
+      VITE_API_ORIGIN: http://api:8000
+    ports:
+      - "5173:5173"
+    volumes:
+      - ./apps/web:/repo/apps/web
+      - /repo/apps/web/node_modules
+    depends_on:
+      - api
+
+  demo-site:
+    <<: *node-app
+    command: npm run dev --workspace apps/demo-site -- --host 0.0.0.0
+    ports:
+      - "5174:5174"
+    volumes:
+      - ./apps/demo-site:/repo/apps/demo-site
+      - /repo/apps/demo-site/node_modules
+    depends_on:
+      - api
+
+volumes:
+  postgres-data:
+  objectstore-data:

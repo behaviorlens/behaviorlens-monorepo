@@ -1,0 +1,432 @@
+/* Base look for the src/ui adapter. Page-level styled-components refine these
+   through the bl-* class names. */
+
+.bl-form-control {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.bl-label {
+  color: #0a1551;
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.bl-form-helper-text {
+  margin: 0;
+  color: #6f76a7;
+  font-size: 12px;
+}
+
+.bl-input-number,
+.bl-unstyled-input {
+  font: inherit;
+}
+
+.bl-input-number {
+  box-sizing: border-box;
+  height: 32px;
+  padding: 0 8px;
+  border: 1px solid #c7c9dc;
+  border-radius: 4px;
+  color: #0a1551;
+  background: #ffffff;
+}
+
+.bl-unstyled-input {
+  border: 0;
+  padding: 0;
+  background: transparent;
+  color: inherit;
+  outline: none;
+}
+
+.bl-textarea-container {
+  box-sizing: border-box;
+  display: flex;
+  border: 1px solid #c7c9dc;
+  border-radius: 4px;
+  background: #ffffff;
+}
+
+.bl-textarea-container:focus-within {
+  border-color: #0075e3;
+  outline: 2px solid rgba(119, 207, 255, 0.5);
+}
+
+.bl-textarea {
+  box-sizing: border-box;
+  flex: 1 1 auto;
+  width: 100%;
+  min-height: 64px;
+  margin: 0;
+  padding: 12px;
+  border: 0;
+  background: transparent;
+  color: inherit;
+  font: inherit;
+  font-size: 14px;
+  line-height: 20px;
+  outline: none;
+}
+
+.bl-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  box-sizing: border-box;
+  height: 28px;
+  padding: 0 8px;
+  border-radius: 4px;
+  color: #343c6a;
+  background: #e3e5f5;
+  font-size: 13px;
+  font-weight: 500;
+  white-space: nowrap;
+}
+
+.bl-tag[data-size='small'] {
+  height: 24px;
+  font-size: 12px;
+}
+
+.bl-tag > button {
+  display: inline-flex;
+  align-items: center;
+  border: 0;
+  padding: 0;
+  background: transparent;
+  color: inherit;
+  cursor: pointer;
+}
+
+.bl-tag > button svg {
+  width: 12px;
+  height: 12px;
+}
+
+/* Dropdown trigger */
+.bl-dropdown {
+  display: inline-flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  box-sizing: border-box;
+  min-height: 40px;
+  padding: 0 12px;
+  border: 1px solid #c7c9dc;
+  border-radius: 4px;
+  color: #343c6a;
+  background: #ffffff;
+  font-size: 14px;
+  cursor: pointer;
+  outline-width: 2px;
+  outline-style: solid;
+  outline-color: transparent;
+}
+
+.bl-dropdown[data-size='small'] {
+  min-height: 32px;
+  padding: 0 8px;
+  font-size: 13px;
+}
+
+.bl-dropdown:focus-visible,
+.bl-dropdown[aria-expanded='true'] {
+  border-color: #0075e3;
+  outline-color: rgba(119, 207, 255, 0.5);
+}
+
+.bl-dropdown[data-disabled] {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.bl-dropdown-value {
+  display: inline-flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 4px;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.bl-dropdown-placeholder {
+  color: #6f76a7;
+}
+
+.bl-dropdown-arrow {
+  display: inline-flex;
+  flex: 0 0 auto;
+}
+
+.bl-dropdown-arrow svg {
+  width: 16px;
+  height: 16px;
+}
+
+/* Dropdown list (portal) */
+.bl-dropdown-list {
+  display: flex;
+  flex-direction: column;
+  max-height: 320px;
+  overflow: hidden;
+  border: 1px solid #e3e5f5;
+  border-radius: 4px;
+  background: #ffffff;
+}
+
+.bl-dropdown-search {
+  flex: 0 0 auto;
+  padding: 8px;
+  border-bottom: 1px solid #e3e5f5;
+}
+
+.bl-dropdown-search input {
+  box-sizing: border-box;
+  width: 100%;
+  height: 32px;
+  padding: 0 8px;
+  border: 1px solid #c7c9dc;
+  border-radius: 4px;
+  font: inherit;
+  font-size: 13px;
+}
+
+.bl-dropdown-options {
+  flex: 1 1 auto;
+  min-height: 0;
+  overflow-y: auto;
+  padding: 4px;
+}
+
+.bl-dropdown-option {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  min-height: 32px;
+  padding: 4px 8px;
+  border-radius: 4px;
+  color: #343c6a;
+  font-size: 13px;
+  cursor: pointer;
+}
+
+.bl-dropdown-option[data-active],
+.bl-dropdown-option:hover {
+  background: #f3f3fe;
+}
+
+.bl-dropdown-option[aria-selected='true'] {
+  color: #0075e3;
+  font-weight: 500;
+}
+
+.bl-dropdown-option-check {
+  flex: 0 0 auto;
+  width: 14px;
+  height: 14px;
+}
+
+.bl-dropdown-status {
+  display: flex;
+  justify-content: center;
+  padding: 12px;
+  color: #6f76a7;
+  font-size: 13px;
+}
+
+/* Menu */
+.bl-menu {
+  overflow: hidden;
+  border-radius: 4px;
+}
+
+.bl-menu-list {
+  min-width: 180px;
+  padding: 4px;
+  border-radius: 4px;
+  background: #ffffff;
+}
+
+.bl-menu-item {
+  display: block;
+}
+
+.bl-menu-item-button {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  width: 100%;
+  min-height: 32px;
+  padding: 6px 8px;
+  border: 0;
+  border-radius: 4px;
+  background: transparent;
+  color: #343c6a;
+  font: inherit;
+  font-size: 14px;
+  text-align: left;
+  cursor: pointer;
+}
+
+.bl-menu-item-button:hover,
+.bl-menu-item-button:focus-visible {
+  background: #f3f3fe;
+}
+
+.bl-menu-item-button[data-color='error'] {
+  color: #dc2626;
+}
+
+.bl-menu-item-icon {
+  display: inline-flex;
+}
+
+.bl-menu-item-icon svg {
+  width: 16px;
+  height: 16px;
+}
+
+/* Tabs */
+.bl-tabs {
+  display: flex;
+  gap: 4px;
+  border-bottom: 1px solid #e3e5f5;
+}
+
+.bl-tab-item {
+  padding: 8px 12px;
+  border: 0;
+  border-bottom: 2px solid transparent;
+  background: transparent;
+  color: #6f76a7;
+  font: inherit;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+}
+
+.bl-tab-item[data-active] {
+  border-bottom-color: #0075e3;
+  color: #0a1551;
+}
+
+/* Modal and dialog */
+.bl-modal-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 24px 24px 0;
+}
+
+.bl-modal-title,
+.bl-dialog-title {
+  margin: 0;
+  color: #0a1551;
+  font-size: 18px;
+  font-weight: 600;
+}
+
+.bl-modal-description,
+.bl-dialog-description {
+  margin: 4px 0 0;
+  color: #6f76a7;
+  font-size: 14px;
+}
+
+.bl-modal-close,
+.bl-dialog-close {
+  display: inline-flex;
+  border: 0;
+  padding: 4px;
+  background: transparent;
+  color: #6f76a7;
+  cursor: pointer;
+}
+
+.bl-dialog-close {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+}
+
+.bl-modal-close svg,
+.bl-dialog-close svg {
+  width: 18px;
+  height: 18px;
+}
+
+.bl-modal-body {
+  padding: 16px 24px;
+}
+
+.bl-modal-actions,
+.bl-dialog-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+  padding: 0 24px 24px;
+}
+
+.bl-dialog-body {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  padding: 32px 24px 16px;
+  text-align: center;
+}
+
+.bl-dialog-footer {
+  padding: 0 24px 24px;
+  color: #6f76a7;
+  font-size: 13px;
+}
+
+.bl-dialog-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  color: #0075e3;
+  background: #e6f4ff;
+}
+
+.bl-dialog-icon[data-color='error'] {
+  color: #dc2626;
+  background: #fde8e8;
+}
+
+.bl-dialog-icon svg {
+  width: 24px;
+  height: 24px;
+}
+
+/* Small utilities the pages still use */
+.w-full {
+  width: 100%;
+}
+
+.text-center {
+  text-align: center;
+}
+
+.flex {
+  display: flex;
+}
+
+.block {
+  display: block;
+}
+
+.duration-0 {
+  transition-duration: 0s !important;
+}

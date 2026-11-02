@@ -1,0 +1,12 @@
+<svg preserveAspectRatio="none" overflow="visible" style="display: block;" width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="behaviorlens-safari-gradient" x1="0" y1="4.57143" x2="11.4286" y2="16" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#4285F4"/>
+      <stop offset="1" stop-color="#1A4DCC"/>
+    </linearGradient>
+  </defs>
+  <circle cx="8" cy="8" r="8" fill="url(#behaviorlens-safari-gradient)"/>
+  <circle cx="8" cy="8" r="6.5" fill="white"/>
+  <rect x="7.5" y="2" width="1" height="6" transform="rotate(30 7.5 2)" fill="#EA4335"/>
+  <rect x="7.5" y="8" width="1" height="6" transform="rotate(30 7.5 8)" fill="#999999"/>
+</svg>

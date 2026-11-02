@@ -1,0 +1,24 @@
+# Dependencies and builds
+node_modules/
+dist/
+*.tsbuildinfo
+
+# Python
+.venv/
+__pycache__/
+*.pyc
+*.egg-info/
+.pytest_cache/
+.ruff_cache/
+
+# Local configuration
+.env
+.env.local
+.env.*.local
+
+# Tooling
+.DS_Store
+npm-debug.log*
+.claude/
+test-results/
+playwright-report/

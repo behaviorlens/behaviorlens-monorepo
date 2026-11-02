@@ -1,0 +1,14 @@
+<svg width="170" height="101" viewBox="0 0 170 101" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <g id="Top Note Card">
+    <rect width="169.34" height="42.8292" rx="5.27129" fill="#DDE1EC"/>
+    <circle cx="21.416" cy="21.4146" r="10.872" fill="#4276FF"/>
+    <rect x="42.1709" y="12.8488" width="75.7748" height="3.95347" rx="1.97673" fill="#979DC6"/>
+    <rect x="42.1709" y="26.027" width="49.4184" height="3.95347" rx="1.97673" fill="#979DC6"/>
+  </g>
+  <g id="Bottom Note Card">
+    <rect x="0.494184" y="53.866" width="168.352" height="45.7943" rx="4.77711" fill="white" stroke="#DDE1EC" stroke-width="0.988367" stroke-dasharray="3.29 2.64"/>
+    <circle cx="21.416" cy="76.7632" r="10.872" fill="#979DC6"/>
+    <rect x="42.1709" y="68.1973" width="75.7748" height="3.95347" rx="1.97673" fill="#979DC6"/>
+    <rect x="42.1709" y="81.3756" width="49.4184" height="3.95347" rx="1.97673" fill="#979DC6"/>
+  </g>
+</svg>

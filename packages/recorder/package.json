@@ -1,0 +1,25 @@
+{
+  "name": "@behaviorlens/recorder",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "BehaviorLens recorder: rrweb capture with a snippet loader for humans and an init-script loader for agents.",
+  "main": "src/index.js",
+  "exports": {
+    ".": "./src/index.js",
+    "./node": "./node/attach.mjs"
+  },
+  "scripts": {
+    "build": "node build.mjs",
+    "dev": "node build.mjs --watch",
+    "test": "vitest run"
+  },
+  "dependencies": {
+    "rrweb": "2.0.0-alpha.11"
+  },
+  "devDependencies": {
+    "jsdom": "25.0.1",
+    "vite": "7.1.5",
+    "vitest": "3.2.4"
+  }
+}

@@ -1,0 +1,37 @@
+{
+  "name": "behaviorlens",
+  "private": true,
+  "description": "BehaviorLens: UX research and behavioral analytics platform (CS491 senior design project).",
+  "workspaces": [
+    "apps/web",
+    "apps/demo-site",
+    "packages/recorder"
+  ],
+  "scripts": {
+    "dev:web": "npm run dev --workspace apps/web",
+    "dev:demo": "npm run dev --workspace apps/demo-site",
+    "build": "npm run build --workspaces --if-present",
+    "lint": "npm run lint --workspaces --if-present",
+    "test": "npm run test --workspaces --if-present",
+    "scan": "node scripts/scan-forbidden.mjs",
+    "generate:api": "node scripts/generate-api-client.mjs",
+    "dev:recorder": "npm run dev --workspace packages/recorder",
+    "seed:sessions": "node scripts/seed-sessions.mjs",
+    "test:e2e": "playwright test --config tests/e2e/playwright.config.mjs",
+    "load:ingest": "node scripts/load-ingest.mjs"
+  },
+  "engines": {
+    "node": ">=20"
+  },
+  "devDependencies": {
+    "@playwright/test": "1.64.1",
+    "playwright": "1.64.1",
+    "rrweb": "2.0.0-alpha.11"
+  },
+  "overrides": {
+    "rrweb": "2.0.0-alpha.11",
+    "rrdom": "2.0.0-alpha.11",
+    "rrweb-snapshot": "2.0.0-alpha.11",
+    "@rrweb/types": "2.0.0-alpha.11"
+  }
+}
