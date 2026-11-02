@@ -23,9 +23,14 @@ const percentile = (values, p) => {
 };
 
 const templateEvents = async () => {
-  const list = await (await fetch(`${api}/api/v1/projects/demo-shop/sessions?limit=1&min_events=100`)).json();
-  if (!list.sessions.length) throw new Error('Record some sessions first (npm run seed:sessions).');
-  const replay = await (await fetch(`${api}/api/v1/projects/demo-shop/sessions/${list.sessions[0].id}/replay`)).json();
+  // Pick by raw rrweb events: min_events and the event sorts use the Activity
+  // Log count, which is far smaller and stays 0 until the worker counts it.
+  const list = await (await fetch(`${api}/api/v1/projects/demo-shop/sessions?limit=50`)).json();
+  const template = list.sessions
+    .filter(session => session.raw_event_count >= 100)
+    .sort((a, b) => b.raw_event_count - a.raw_event_count)[0];
+  if (!template) throw new Error('Record some sessions first (npm run seed:sessions).');
+  const replay = await (await fetch(`${api}/api/v1/projects/demo-shop/sessions/${template.id}/replay`)).json();
   return replay.events;
 };
 
