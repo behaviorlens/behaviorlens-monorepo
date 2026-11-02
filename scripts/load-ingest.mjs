@@ -92,11 +92,12 @@ const main = async () => {
 
   await Promise.all(Array.from({ length: recordings }, (_, index) => runRecording(index)));
 
-  // Every accepted event must be stored: compare against the API's counts.
+  // Every accepted event must be stored: compare against the API's raw count
+  // and the replay itself (event_count is the Activity Log count, not this).
   let lost = 0;
   for (const [sessionId, expected] of sent) {
     const replay = await (await fetch(`${api}/api/v1/projects/${project}/sessions/${sessionId}/replay`)).json();
-    if (replay.event_count !== expected || replay.events.length !== expected) lost += 1;
+    if (replay.raw_event_count !== expected || replay.events.length !== expected) lost += 1;
   }
 
   const p95 = percentile(latencies, 95);
