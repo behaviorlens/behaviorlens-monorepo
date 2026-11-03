@@ -30,7 +30,7 @@ jobs:
           node-version: 22
           cache: npm
       - run: npm ci
-      - run: npm run lint --workspace apps/web
+      - run: npm run lint --workspace frontend
       - run: npm test --workspaces --if-present
       - run: npm run build
 
@@ -55,14 +55,14 @@ jobs:
       BL_DATABASE_URL: postgresql+psycopg://behaviorlens:behaviorlens@localhost:5432/behaviorlens
     defaults:
       run:
-        working-directory: apps/api
+        working-directory: backend
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
         with:
           python-version: "3.12"
           cache: pip
-          cache-dependency-path: apps/api/pyproject.toml
+          cache-dependency-path: backend/pyproject.toml
       - run: pip install -e ".[dev]"
       - run: ruff check .
       - run: ruff format --check .
@@ -87,12 +87,12 @@ jobs:
         with:
           python-version: "3.12"
       - run: npm ci
-      - run: pip install -e "apps/api[dev]"
+      - run: pip install -e "backend[dev]"
       - run: npm run generate:api
         env:
           BL_PYTHON: python
       - name: Fail if the committed schema differs
-        run: git diff --exit-code apps/api/openapi.json apps/web/src/api/schema.d.ts
+        run: git diff --exit-code backend/openapi.json frontend/src/api/schema.d.ts
 
   e2e:
     name: End to end (full stack)

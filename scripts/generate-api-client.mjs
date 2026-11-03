@@ -1,15 +1,15 @@
-// Regenerates apps/api/openapi.json from the FastAPI app and the typed client
-// schema at apps/web/src/api/schema.d.ts. CI runs this and fails on any diff.
+// Regenerates backend/openapi.json from the FastAPI app and the typed client
+// schema at frontend/src/api/schema.d.ts. CI runs this and fails on any diff.
 //
 // Usage: npm run generate:api
-// Uses $BL_PYTHON, else apps/api/.venv's python, else "python" on PATH.
+// Uses $BL_PYTHON, else backend/.venv's python, else "python" on PATH.
 import { execFileSync } from 'node:child_process';
 import { existsSync } from 'node:fs';
 import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
 const root = join(dirname(fileURLToPath(import.meta.url)), '..');
-const apiDir = join(root, 'apps', 'api');
+const apiDir = join(root, 'backend');
 const venvPython = process.platform === 'win32'
   ? join(apiDir, '.venv', 'Scripts', 'python.exe')
   : join(apiDir, '.venv', 'bin', 'python');
@@ -22,7 +22,7 @@ execFileSync(
     join(root, 'node_modules', 'openapi-typescript', 'bin', 'cli.js'),
     join(apiDir, 'openapi.json'),
     '--output',
-    join(root, 'apps', 'web', 'src', 'api', 'schema.d.ts')
+    join(root, 'frontend', 'src', 'api', 'schema.d.ts')
   ],
   { cwd: root, stdio: 'inherit' }
 );

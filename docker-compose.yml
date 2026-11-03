@@ -47,7 +47,7 @@ services:
       - objectstore-data:/data
 
   api:
-    build: ./apps/api
+    build: ./backend
     environment: &api-env
       BL_DATABASE_URL: postgresql+psycopg://behaviorlens:behaviorlens@postgres:5432/behaviorlens
       BL_REDIS_URL: redis://redis:6379/0
@@ -57,10 +57,10 @@ services:
     ports:
       - "8000:8000"
     volumes:
-      - ./apps/api/app:/app/app
-      - ./apps/api/alembic:/app/alembic
-      - ./apps/api/tests:/app/tests
-      - ./packages/recorder/dist:/app/recorder-dist:ro
+      - ./backend/app:/app/app
+      - ./backend/alembic:/app/alembic
+      - ./backend/tests:/app/tests
+      - ./recorder/dist:/app/recorder-dist:ro
     depends_on:
       postgres:
         condition: service_healthy
@@ -70,48 +70,48 @@ services:
         condition: service_started
 
   worker:
-    build: ./apps/api
+    build: ./backend
     # -B runs the scheduler too (closes idle sessions every minute, retention nightly).
     command: celery -A app.worker worker -B --queues default,agent --loglevel INFO
     environment: *api-env
     volumes:
-      - ./apps/api/app:/app/app
+      - ./backend/app:/app/app
     depends_on:
       - redis
       - postgres
 
   recorder:
-    # Rebuilds packages/recorder/dist (bl.js, bl-agent.js) on every change; the API serves it.
+    # Rebuilds recorder/dist (bl.js, bl-agent.js) on every change; the API serves it.
     <<: *node-app
-    command: npm run dev --workspace packages/recorder
+    command: npm run dev --workspace recorder
     environment:
       CHOKIDAR_USEPOLLING: "true"
     volumes:
-      - ./packages/recorder:/repo/packages/recorder
-      - /repo/packages/recorder/node_modules
+      - ./recorder:/repo/recorder
+      - /repo/recorder/node_modules
 
   web:
     <<: *node-app
-    command: npm run dev --workspace apps/web -- --host 0.0.0.0
+    command: npm run dev --workspace frontend -- --host 0.0.0.0
     environment:
       VITE_USE_POLLING: "true"
       VITE_API_ORIGIN: http://api:8000
     ports:
       - "5173:5173"
     volumes:
-      - ./apps/web:/repo/apps/web
-      - /repo/apps/web/node_modules
+      - ./frontend:/repo/frontend
+      - /repo/frontend/node_modules
     depends_on:
       - api
 
   demo-site:
     <<: *node-app
-    command: npm run dev --workspace apps/demo-site -- --host 0.0.0.0
+    command: npm run dev --workspace examples/demo-site -- --host 0.0.0.0
     ports:
       - "5174:5174"
     volumes:
-      - ./apps/demo-site:/repo/apps/demo-site
-      - /repo/apps/demo-site/node_modules
+      - ./examples/demo-site:/repo/examples/demo-site
+      - /repo/examples/demo-site/node_modules
     depends_on:
       - api
 

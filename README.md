@@ -8,13 +8,26 @@ UX recommendations. CS491/CS492 senior design project.
 
 | Path | What it is |
 | --- | --- |
-| `apps/web` | Dashboard (React 18, Vite, Mantine via `src/ui`) |
-| `apps/api` | API and background worker (Python 3.12, FastAPI, SQLAlchemy, Alembic, Celery) |
-| `apps/demo-site` | Demo shop with switchable usability defects, recorded through the snippet |
-| `packages/recorder` | The recorder: rrweb capture with a snippet loader (humans) and an init-script loader (agents) |
+| `frontend` | Dashboard (React 18, Vite, Mantine via `src/ui`) |
+| `backend` | API and background worker (Python 3.12, FastAPI, SQLAlchemy, Alembic, Celery) |
+| `recorder` | The recorder: rrweb capture with a snippet loader (humans) and an init-script loader (agents) |
+| `examples/demo-site` | Demo shop with switchable usability defects, recorded through the snippet; a test site, not part of the product |
 | `scripts` | Seeding sessions, load testing, API client generation, forbidden-content scan |
 | `tests/e2e` | End-to-end tests against the running stack |
 | `infra` | Shared Docker images |
+
+## Tech stack
+
+| Area | Technologies |
+| --- | --- |
+| Frontend (dashboard) | React 18, Vite, Mantine 8 (through `src/ui`), styled-components, lucide-react icons, Highcharts, rrweb-player, React Router |
+| Backend (API and worker) | Python 3.12, FastAPI, Pydantic v2, SQLAlchemy 2, Alembic, Celery, boto3 |
+| Recorder | rrweb, bundled with Vite into a snippet (`bl.js`) and a Playwright init script (`bl-agent.js`) |
+| Demo shop | React 18, Vite, React Router |
+| Data | PostgreSQL 16 (metadata), Redis 7 (task queue and rate limits), SeaweedFS (S3-compatible store for recordings) |
+| Testing | Vitest, Testing Library, pytest, Playwright (end-to-end, agent runs and seeding) |
+| Tooling | npm workspaces, TypeScript (type checking), ESLint, Ruff, Pyright, openapi-typescript (typed API client) |
+| Infrastructure | Docker Compose for local development, GitHub Actions for CI |
 
 ## How to run
 
@@ -83,7 +96,7 @@ await recording.stop(page); // flushes, ends the session, waits for uploads
 
 ### Project settings
 
-The local stack seeds one project (`apps/api/app/seed.py`):
+The local stack seeds one project (`backend/app/seed.py`):
 
 | Setting | Value |
 | --- | --- |
