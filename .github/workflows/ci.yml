@@ -92,7 +92,7 @@ jobs:
         env:
           BL_PYTHON: python
       - name: Fail if the committed schema differs
-        run: git diff --exit-code backend/openapi.json frontend/src/api/schema.d.ts
+        run: git diff --exit-code backend/openapi.json frontend/src/services/schema.d.ts
 
   e2e:
     name: End to end (full stack)

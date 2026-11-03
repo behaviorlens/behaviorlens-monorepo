@@ -8,10 +8,16 @@ Session Notes, Mentions & Notes, Saved Filters and the AI Summary card.
 
 | Path | What it is |
 | --- | --- |
-| `src/components/BehaviorLensDashboard` | Dashboard pages and components |
-| `src/ui` | UI kit adapter over Mantine, with lucide-react icons |
-| `src/services/BehaviorLensService.js` | The one HTTP client for the API |
-| `src/api` | Typed API client generated from the backend's OpenAPI spec |
+| `src/dashboard` | Dashboard routes and shell, with one folder per feature: `sessions`, `workspace`, `replay`, `page-insights`, `notes`, `saved-filters`, `ai-summary`, `review`, plus `shared` |
+| `src/ui` | UI kit adapter over Mantine, lucide-react icons and generic controls |
+| `src/services` | `BehaviorLensService.js` (the one HTTP client for the API), `httpClient.js` and the generated `schema.d.ts` |
+| `src/contexts` | `UserContext` for the current reviewer |
+| `src/lib` | General utilities (storage, message bus, prop defaults) |
+| `src/styles` | Global styles (`base.css`, `app.css`) |
+
+The dashboard is JavaScript and is not type-checked. `src/services/schema.d.ts` is
+generated from the backend's OpenAPI spec (`npm run generate:api`) as a reference; nothing
+imports it yet.
 
 ## How to run
 

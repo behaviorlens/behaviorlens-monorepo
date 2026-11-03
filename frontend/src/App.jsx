@@ -2,8 +2,8 @@ import React, { useMemo } from 'react';
 import {
   Redirect, Route, Switch, useLocation
 } from 'react-router-dom';
-import BehaviorLensMain from './components/BehaviorLensDashboard';
-import { UserContext } from './store';
+import BehaviorLensMain from './dashboard';
+import { UserContext } from './contexts/UserContext';
 
 // Until Phase 2 adds accounts, the dashboard runs as one local demo reviewer.
 const user = {

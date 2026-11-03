@@ -26,7 +26,7 @@ UX recommendations. CS491/CS492 senior design project.
 | Demo shop | React 18, Vite, React Router |
 | Data | PostgreSQL 16 (metadata), Redis 7 (task queue and rate limits), SeaweedFS (S3-compatible store for recordings) |
 | Testing | Vitest, Testing Library, pytest, Playwright (end-to-end, agent runs and seeding) |
-| Tooling | npm workspaces, TypeScript (type checking), ESLint, Ruff, Pyright, openapi-typescript (typed API client) |
+| Tooling | npm workspaces, ESLint, Ruff, Pyright, openapi-typescript (API schema declarations) |
 | Infrastructure | Docker Compose for local development, GitHub Actions for CI |
 
 ## How to run

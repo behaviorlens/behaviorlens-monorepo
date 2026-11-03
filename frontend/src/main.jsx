@@ -9,7 +9,7 @@ import './styles/base.css';
 import './ui/ui.css';
 import App from './App';
 import { theme } from './ui/theme';
-import './styles.css';
+import './styles/app.css';
 
 createRoot(document.getElementById('root')).render(
   <React.StrictMode>

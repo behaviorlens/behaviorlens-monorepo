@@ -1,6 +1,7 @@
 // The only module the app imports UI controls from. Built on Mantine; swap the
 // implementation here without touching pages.
 export { Button, Link, UnstyledButton } from './Button';
+export { default as ConfirmationDialog } from './ConfirmationDialog';
 export {
   Alert, Loader, Notification, NotificationContainer
 } from './Feedback';

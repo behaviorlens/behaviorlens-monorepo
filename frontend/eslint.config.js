@@ -4,7 +4,7 @@ import react from 'eslint-plugin-react';
 import reactHooks from 'eslint-plugin-react-hooks';
 
 export default [
-  { ignores: ['dist/**', 'src/api/schema.d.ts'] },
+  { ignores: ['dist/**', 'src/services/schema.d.ts'] },
   {
     files: ['src/**/*.{js,jsx}'],
     languageOptions: {

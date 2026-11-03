@@ -7,9 +7,8 @@
     "dev": "vite",
     "build": "vite build",
     "preview": "vite preview",
-    "lint": "eslint src && tsc --noEmit",
-    "test": "vitest run",
-    "typecheck": "tsc --noEmit"
+    "lint": "eslint src",
+    "test": "vitest run"
   },
   "engines": {
     "node": ">=20"
@@ -22,7 +21,6 @@
     "highcharts": "9.0.1",
     "highcharts-react-official": "3.0.0",
     "lucide-react": "1.66.0",
-    "openapi-fetch": "0.17.0",
     "prop-types": "15.7.2",
     "react": "18.3.0",
     "react-dom": "18.3.0",

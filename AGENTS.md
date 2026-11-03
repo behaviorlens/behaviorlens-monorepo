@@ -49,7 +49,9 @@ are part of the broader project, not a promise that every endpoint exists.
 ## Check a change
 
 - Choose checks for the changed parts; run cross-part checks when changing shared behavior.
-- Web: `npm run lint --workspace frontend` runs ESLint and TypeScript checking.
+- Web: `npm run lint --workspace frontend` runs ESLint. The JavaScript dashboard is not
+  type-checked: `frontend/src/services/schema.d.ts` is generated for reference and possible
+  typed use later, but nothing imports it, so it does not validate dashboard API calls.
 - Web tests: `npm test --workspace frontend` runs Vitest.
 - Recorder tests: `npm test --workspace recorder` runs Vitest.
 - Recorder build: `npm run build --workspace recorder` builds both loaders.
@@ -78,7 +80,9 @@ are part of the broader project, not a promise that every endpoint exists.
 - `api` installs Python development dependencies, runs Ruff lint/format checks,
   Pyright and pytest, then applies/checks migrations and seeds an empty Postgres database.
 - `api-contract` regenerates the API schema and rejects diffs in
-  `backend/openapi.json` and `frontend/src/api/schema.d.ts`.
+  `backend/openapi.json` and `frontend/src/services/schema.d.ts`. It detects drift between
+  the backend-generated OpenAPI schema and the committed files; it does not establish
+  that the frontend and backend are compatible.
 - `e2e` starts Compose, waits for the API, recorder bundle and both front ends,
   runs Playwright, then runs `npm run load:ingest -- 20 30`.
 
@@ -109,23 +113,34 @@ are part of the broader project, not a promise that every endpoint exists.
   aggregate user counts, percentages, geolocation or console/network telemetry.
 - Keep AI summary generation an explicit action, separate from replay loading.
 
-## Dashboard file map
+## Frontend file map
 
-The following filenames are relative to `frontend/src/components/BehaviorLensDashboard`.
+Paths are relative to `frontend/src`.
 
-- Routing and shell: `DashboardRoutes.jsx`, `BehaviorLensShell.jsx`.
-- Session list: `SessionListPage.jsx`, `SessionListRow.jsx`.
-- Filters and catalog: `useSessionListSearchParams.js`, `behaviorLensSessionFilters.js`,
-  `behaviorLensSessionListCatalog.js`.
-- Dashboard charts: `DashboardPage.jsx`; saved filters: `SavedFiltersNavigation.jsx`,
-  `behaviorLensSavedFilters.js`, `useBehaviorLensSavedFilters.js`.
-- Session workspace: `SessionDetailPage.jsx`, `useWorkspaceChrome.js`, `sessionDetailHooks.js`.
-- Replay and transport: `SessionReplayPlayerStack.jsx`, `ReplayControlBar.jsx`,
-  `useReplayTransport.js`; activity rail: `SessionEventRail.jsx`.
-- Page Insights: `PageInsightsWorkspace.jsx`, `PageInsightsPlaybackStage.jsx`.
-- Notes and inbox: `SessionNotesRail.jsx`, `SharedWithMePage.jsx`.
-- AI summary: `SessionAiSummaryFeature.jsx`, `useSessionAiSummary.js`.
-- Activity derivation: `behaviorLensEvents.jsx`; layout storage: `behaviorLensLayoutPreferences.js`.
+- `dashboard/`: entry `index.js`, `DashboardRoutes.jsx`, the list shell `BehaviorLensShell.jsx`
+  and `useCompactShellNav.js`. Feature folders:
+  - `sessions/`: `SessionListPage.jsx`, `SessionListRow.jsx`, `DashboardPage.jsx`, filters and
+    sorting (`useSessionListSearchParams.js`, `behaviorLensSessionFilters.js`,
+    `behaviorLensSessionListCatalog.js`).
+  - `workspace/`: `SessionDetailPage.jsx`, `useWorkspaceChrome.js`, `sessionDetailHooks.js`,
+    mode tabs, rail and Dev Tools splitters, the activity rail `SessionEventRail.jsx`.
+  - `replay/`: `SessionReplayPlayerStack.jsx`, `ReplayControlBar.jsx`, `SessionTimeline.jsx`,
+    `useReplayTransport.js`.
+  - `page-insights/`: `PageInsightsWorkspace.jsx`, `PageInsightsPlaybackStage.jsx`, click and
+    scroll maps, inspect mode.
+  - `notes/`: `SessionNotesRail.jsx`, `SessionNotesUI.jsx`, `NoteSharePopover.jsx`, and the
+    Mentions & Notes page `SharedWithMePage.jsx`.
+  - `saved-filters/`: `BehaviorLensSavedFiltersContext.jsx`, `SavedFiltersNavigation.jsx`,
+    `behaviorLensSavedFilters.js`, `useBehaviorLensSavedFilters.js`.
+  - `ai-summary/`: `SessionAiSummaryFeature.jsx`, `useSessionAiSummary.js`.
+  - `review/`: tags, bookmarks, reviewers and review queue (`SessionReviewMetadataPanel.jsx`,
+    `ReviewInlineControls.jsx`, `useSessionReviewQueue.js`).
+  - `shared/`: activity derivation `behaviorLensEvents.jsx`, layout storage
+    `behaviorLensLayoutPreferences.js`, replay element and timestamp helpers.
+- `ui/`: Mantine adapters, icons and generic controls such as `ConfirmationDialog.jsx`.
+- `services/`: `BehaviorLensService.js`, `httpClient.js` and the generated `schema.d.ts`.
+- `contexts/UserContext.js`, `lib/` (storage, message bus, prop defaults), `styles/`
+  (`base.css`, `app.css`).
 
 ## API and worker rules
 
@@ -167,7 +182,8 @@ The following filenames are relative to `frontend/src/components/BehaviorLensDas
 
 - Public session `event_count` means Activity Log activity, not raw rrweb event volume.
   Keep `backend/app/activity.py` aligned with `buildActivityInsights` in the dashboard's
-  `behaviorLensEvents.jsx`; change both implementations and relevant tests together.
+  `dashboard/shared/behaviorLensEvents.jsx`; change both implementations and relevant tests
+  together.
 - The database's session `event_count` stores raw events; API responses expose it as
   `raw_event_count` and expose `activity_count` as public `event_count`.
 - Keep idle timeouts equal: `session_idle_seconds` in `backend/app/config.py` is
@@ -187,11 +203,22 @@ The following filenames are relative to `frontend/src/components/BehaviorLensDas
   identifiers, files and API paths (`/api/v1/saved-filters`, planned for Phase 2).
 - Put tests that live outside the source tree in a `tests` folder (`backend/tests`,
   `recorder/tests`, root `tests/e2e`); frontend unit tests sit next to their code.
+- Organize dashboard code by feature under `frontend/src/dashboard`: `sessions`, `workspace`,
+  `replay`, `page-insights`, `notes`, `saved-filters`, `ai-summary` and `review`, each
+  owning the screens, hooks, styles and helpers for that feature (see the file map).
+  Routes and the list shell stay at the dashboard root.
+- Keep a feature's components, hooks, styled components and helpers together in its
+  folder. A feature may own code that other features import; reuse alone is no reason
+  to move it.
+- Put generic, domain-free controls in `frontend/src/ui`; dashboard-specific code shared
+  by several features with no clear owner goes in `frontend/src/dashboard/shared`, which
+  must not import from feature folders.
+- Keep general utilities with no dashboard knowledge in `frontend/src/lib`.
 
 ## Do not
 
-- Do not manually edit `frontend/src/api/schema.d.ts` or `backend/openapi.json`;
-  regenerate them. `frontend/src/api/client.ts` is handwritten code and may be edited.
+- Do not manually edit `frontend/src/services/schema.d.ts` or `backend/openapi.json`;
+  regenerate them with `npm run generate:api`.
 - Do not commit secrets, real recordings, or real visitor data.
 - Do not add PATCH endpoints or PATCH service calls.
 - Do not change recorder capture as a side effect of dashboard-only review work.

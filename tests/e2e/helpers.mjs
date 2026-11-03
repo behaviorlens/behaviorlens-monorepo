@@ -8,6 +8,22 @@ export const fetchReplay = async sessionId => {
 
 // What a recording is made of, independent of timing and node ids: event kinds,
 // incremental sources, the pages visited and the interactions in order.
+// Every string in a stored replay (keys and values), joined. Typed text can only
+// leak through strings; numbers such as timestamps are left out so a secret's
+// digits cannot match a millisecond timestamp by chance.
+export const recordedText = replay => {
+  const strings = [];
+  const walk = value => {
+    if (typeof value === 'string') strings.push(value);
+    else if (Array.isArray(value)) value.forEach(walk);
+    else if (value && typeof value === 'object') {
+      Object.entries(value).forEach(([key, item]) => { strings.push(key); walk(item); });
+    }
+  };
+  walk(replay);
+  return strings.join('|');
+};
+
 export const recordingShape = events => {
   const kinds = new Set();
   const sources = new Set();

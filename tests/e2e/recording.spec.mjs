@@ -1,7 +1,9 @@
 import { chromium, expect, test } from '@playwright/test';
 import { fillCheckout, JOURNEYS } from '../../scripts/journeys.mjs';
 import { recordAgentVisit, recordHumanVisit, waitForSession } from '../../scripts/run-journey.mjs';
-import { fetchReplay, recordingShape, watchConsoleErrors } from './helpers.mjs';
+import {
+  fetchReplay, recordedText, recordingShape, watchConsoleErrors
+} from './helpers.mjs';
 
 let browser;
 
@@ -74,10 +76,15 @@ test('text typed into checkout fields never reaches storage', async () => {
   for (const record of [recordHumanVisit, recordAgentVisit]) {
     const { sessionId } = await record(browser, journey, { visitor: 'Privacy Probe' });
     await waitForSession(sessionId);
-    const stored = await fetchReplay(sessionId);
+    const replay = JSON.parse(await fetchReplay(sessionId));
+    const stored = recordedText(replay);
     expect(stored).not.toContain(secretEmail);
     expect(stored).not.toContain('privacy-probe');
     expect(stored).not.toContain(secretCard);
     expect(stored).not.toContain('5678');
+    // The fields were typed into and recorded, as masked characters only.
+    const inputs = replay.events.filter(event => event.type === 3 && event.data.source === 5);
+    expect(inputs.some(event => event.data.text.length >= secretCard.length)).toBe(true);
+    expect(inputs.every(event => /^\**$/.test(event.data.text))).toBe(true);
   }
 });
